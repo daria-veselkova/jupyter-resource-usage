@@ -44,15 +44,13 @@ export class CpuUsage extends VDomRenderer<CpuUsage.Model> {
     let text: string;
     if (this.model.cpuLimit === null) {
       text = this._trans.__(
-        'CPU: %1 % (%2)',
-        this.model.cpuPercent,
-        this.model.currentCpu,
+        'CPU: %1',
+        this.model.currentCpu.toFixed(Private.DECIMAL_PLACES),
       );
     } else {
       text = this._trans.__(
-        'Mem: %1 % (%2 / %3)',
-        this.model.cpuPercent,
-        this.model.currentCpu,
+        'CPU: %1 / %2',
+        this.model.currentCpu.toFixed(Private.DECIMAL_PLACES),
         this.model.cpuLimit,
       );
     }
@@ -231,12 +229,16 @@ export namespace CpuUsage {
       refreshRate: number;
     }
   }
-
+}
 /**
  * A namespace for module private statics.
  */
 namespace Private {
-
+  /**
+    * The number of decimal places to use when rendering memory usage.
+  */
+  export const DECIMAL_PLACES = 3;
+  
   /**
    * Settings for making requests to the server.
    */
@@ -273,8 +275,6 @@ namespace Private {
       SERVER_CONNECTION_SETTINGS
     );
     const response = await request;
-
     return await response.json();
   }
-}
 }

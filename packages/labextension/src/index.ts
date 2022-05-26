@@ -12,9 +12,9 @@ import { MemoryUsage } from './memoryUsage';
 import { CpuUsage } from './cpuUsage';
 
 /**
- * Initialization data for the jupyter-resource-usage extension.
+ * Initialization data for the jupyter-resource-usage-mem extension.
  */
-export const memory_extension: JupyterFrontEndPlugin<void> = {
+const memory_extension: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-server/resource-usage:memory-status-item',
   autoStart: true,
   requires: [IStatusBar, ITranslator],
@@ -28,7 +28,7 @@ export const memory_extension: JupyterFrontEndPlugin<void> = {
     statusBar.registerStatusItem(memory_extension.id, {
       item,
       align: 'left',
-      rank: 2,
+      rank: 3,
       isActive: () => item.model.metricsAvailable,
       activeStateChanged: item.model.stateChanged,
     });
@@ -36,27 +36,29 @@ export const memory_extension: JupyterFrontEndPlugin<void> = {
 };
 
 // export default memory_extension;
-
+  
 /**
- * Initialization data for the jupyter-resource-usage extension.
+ * Initialization data for the jupyter-resource-usage-cpu extension.
  */
- export const cpu_extension: JupyterFrontEndPlugin<void> = {
+const cpu_extension: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-server/resource-usage:cpu-status-item',
   autoStart: true,
   requires: [IStatusBar, ITranslator],
   activate: (
     app: JupyterFrontEnd,
     statusBar: IStatusBar,
-    translator: ITranslator
+    translator: ITranslator,
   ) => {
     const item = new CpuUsage(translator);
 
     statusBar.registerStatusItem(cpu_extension.id, {
       item,
       align: 'left',
-      rank: 2,
+      rank: 1,
       isActive: () => item.model.metricsAvailable,
       activeStateChanged: item.model.stateChanged,
     });
   },
 };
+    
+export default cpu_extension;
